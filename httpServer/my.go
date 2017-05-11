@@ -17,7 +17,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	for _, a := range addrs {
 		if ipnet, ok := a.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
 			if ipnet.IP.To4() != nil {
-				fmt.Fprintf(w, "Hi %s , this is %s! \n", r.Host, ipnet.IP)
+				ip, _, _ := net.SplitHostPort(r.RemoteAddr)
+				fmt.Fprintf(w, "Hi %s , this is %s!", ip, ipnet.IP)
 			}
 		}
 	}
